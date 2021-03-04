@@ -1,41 +1,46 @@
-function newItem() {
+let checklist = (function() {
+  function newItem() {
 
-  let li = $('<li></li>');
-  let inputValue = $('#input').val();
-  let input = $('#input');
-  li.append(inputValue);
+    let li = $('<li></li>');
+    let inputValue = $('#input').val();
+    let input = $('#input');
+    let deleteIcon = $('<div></div>');
 
-  if (inputValue === '') {
-    alert('You must write something!');
-  } else {
-    $('#list').append(li);
-    input.val('')
+    function crossOut() {
+      li.toggleClass('strike');
+    }
+
+    function deleteListItem() {
+      li.addClass('delete');
+    }
+
+    //If an input has been accepted then the form will become blank
+    if (inputValue === '') {
+      alert('You must write something!');
+    } else {
+      $('#list').append(li);
+      input.val('')
+    }
+    
+    deleteIcon.append(document.createTextNode('X'));
+    li.append(deleteIcon);
+    li.append(inputValue);
+    
+    deleteIcon.on('click', deleteListItem);
+    li.on('dblclick', crossOut);
+
+    //Alows items to be rearranged
+    $('#list').sortable();
   }
+  //Allows access to the newItem function in the IIFE
+  return {
+    newItemf: newItem
+  };
 
-  function crossOut() {
-    li.toggleClass('strike');
-  }
+})();
 
-  function deleteListItem() {
-    li.addClass('delete');
-  }
+//If the Add button is pushed the newItem function will run
+$('#button').on('click', checklist.newItemf)
 
-  li.on('dblclick', crossOut);
-
-
-  let deleteIcon = $('<div></div>');
-  deleteIcon.append(document.createTextNode('X'));
-  li.append(deleteIcon);
-
-  deleteIcon.on('click', deleteListItem);
-
-
-  $('#list').sortable();
-
-}
-$(window).on('keypress', function (e){
-  if(e.which == 13) {
-    newItem();
-    return false;
-  }
-});
+//Allows enter to submit the written input
+$('form').on('submit', checklist.newItemf)
