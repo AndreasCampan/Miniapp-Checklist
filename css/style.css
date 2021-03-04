@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400italic,400);
 
+* {
+	box-sizing: border-box;
+}
+
 body {
 font: normal normal 13px/16px "Open Sans", sans-serif;
 background: #dfdfdf;
@@ -69,4 +73,15 @@ li > div {
 	float: right;
 	color: #ff3d41;
 	font-weight:900;
+}
+
+@media all and (max-width: 850px){
+	body {
+		font-size: 1em;
+	}
+
+	input{
+		width: 200px;
+		transition: all ease-in-out 0.3s;
+	}
 }
